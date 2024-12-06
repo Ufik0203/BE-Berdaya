@@ -9,10 +9,7 @@ const newsletterRoutes = require("./routes/newsletter");
 const app = express();
 const port = process.env.PORT || 8800;
 
-app.use(cors({
-    origin:process.env.API_FE,
-}));
-
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
