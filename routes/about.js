@@ -4,6 +4,7 @@ const { sql, poolPromise } = require("../config/db");
 
 router.get("/", async (req, res) => {
   try {
+    console.log("test");
     const pool = await poolPromise;
     const result = await pool.request().query(
       `SELECT 
@@ -18,6 +19,7 @@ router.get("/", async (req, res) => {
              JOIN card_about ON about.id = card_about.about_id`
     );
     res.status(200).json(result.recordset);
+    req.status(200).json("success");
   } catch (err) {
     console.error("Error query:", err.message);
     res.status(500).json({ error: "Gagal get data" });
