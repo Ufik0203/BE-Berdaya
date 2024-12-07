@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { sql, poolPromise } = require("../config/db");
+const db = require("../config/db");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
@@ -15,15 +15,15 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-router.post("/", async (req, res) => {
+router.post("/", (req, res) => {
     const { email } = req.body;
 
-    try {
-        const pool = await poolPromise;
-
-        const result = await pool.request()
-            .input('email', sql.VarChar, email)
-            .query("INSERT INTO subscribers_email (email) VALUES (@email)");
+    const sql = "INSERT INTO subscribers_email (email) VALUES (?)";
+    db.query(sql, [email], (err, data) => {
+        if (err) {
+            console.error("Error saving email to database:", err);
+            return res.status(500).json({ message: "Gagal menyimpan email ke database" });
+        }
 
         const mailOptions = {
             from: {
@@ -40,13 +40,10 @@ router.post("/", async (req, res) => {
                 console.error("Error sending email:", error);
                 return res.status(500).json({ message: "Gagal mengirim email" });
             }
-            return res.status(200).json({ message: "Email berhasil disimpan" });
+            // console.log("Email sent:", info.response);
+            return res.status(200).json({ message: "Success" });
         });
-
-    } catch (err) {
-        console.error("Error processing request:", err);
-        return res.status(500).json({ message: "Gagal memproses permintaan" });
-    }
+    });
 });
 
 module.exports = router;

@@ -1,33 +1,20 @@
 require("dotenv").config();
-const sql = require("mssql");
+const mysql2 = require("mysql2");
 
-const dbConfig = {
+const db = mysql2.createConnection({
+    host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    server: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    options: {
-        encrypt: true,
-        trustServerCertificate: true,
-    },
-};
+    database: process.env.DB_NAME
+});
 
-let poolPromise;
 
-async function connectToDatabase() {
-    try {
-        const pool = await new sql.ConnectionPool(dbConfig).connect();
-        console.log("Terhubung ke SQL Server");
-        poolPromise = pool; 
-    } catch (err) {
+db.connect((err) => {
+    if (err) {
         console.error("Koneksi ke database gagal:", err.message);
-        process.exit(1);
+    } else {
+        console.log("Terhubung ke database.");
     }
-}
+});
 
-connectToDatabase();
-
-module.exports = {
-    sql,
-    poolPromise,
-};
+module.exports = db;
