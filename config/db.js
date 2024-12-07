@@ -1,21 +1,25 @@
-require("dotenv").config();
-const mysql2 = require("mysql2");
+require('dotenv').config();
+var fs = require('fs');
+var mysql = require('mysql');
 
-const db = mysql2.createConnection({
+const serverCa = [fs.readFileSync(process.env.SSL, "utf8")];
+
+var conn = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    password: process.env.DB_PASS,
     database: process.env.DB_NAME,
-    port: process.env.DB_PORT
-});
-
-
-db.connect((err) => {
-    if (err) {
-        console.error("Koneksi ke database gagal:", err.message);
-    } else {
-        console.log("Terhubung ke database.");
+    port: process.env.DB_PORT,
+    ssl: {
+        rejectUnauthorized: true,
+        ca: serverCa,
     }
 });
 
-module.exports = db;
+conn.connect(function(err) {
+    if (err) {
+        console.error("Koneksi ke database gagal: ", err.message);
+        return;
+    }
+    console.log("Terhubung ke database dengan koneksi aman.");
+});
