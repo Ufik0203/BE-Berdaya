@@ -5,7 +5,7 @@ const db = require("../config/db");
 router.get("/", (req, res) => {
   const sql = "SELECT * FROM solusi";
   db.query(sql, (err, data) => {
-    if (err) return res.json(err);
+    if (err) return res.json(err,"error");
     return res.json(data);
   });
 });
