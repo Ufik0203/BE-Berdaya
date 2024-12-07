@@ -21,14 +21,13 @@ app.get("/about", (req, res) => {
   });
 });
 
-// db.query("SELECT * FROM about", (err, results) => {
-//   if (err) {
-//     console.error("Error executing query:", err.message);
-//   } else {
-//     console.log("Query results:", results);
-//   }
-//   db.end();
-// });
+app.get("/solusi", (req, res) => {
+  const sql = "SELECT * FROM solusi";
+  db.query(sql, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  })
+})
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
