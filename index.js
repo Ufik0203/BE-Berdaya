@@ -11,11 +11,11 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json("Hello dari Backend");
+  res.json("Halo ini dari Backend Berdaya");
 });
 
 app.get("/solusi", (req, res) => {
-  const sql = "SELECT * FROM berdaya.solusi";
+  const sql = "SELECT * FROM db_berdaya.solusi";
   db.query(sql, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
