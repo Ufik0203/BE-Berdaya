@@ -13,13 +13,13 @@ app.get("/", (req, res) => {
   res.json("Hello dari Backend");
 })
 
-app.get("/about", (req, res) => {
-  const sql = "SELECT * FROM berdaya.about";
-  db.query(sql, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data);
-  })
-})
+// app.get("/about", (req, res) => {
+//   const sql = "SELECT * FROM berdaya.about";
+//   db.query(sql, (err, data) => {
+//     if (err) return res.json(err);
+//     return res.json(data);
+//   })
+// })
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
