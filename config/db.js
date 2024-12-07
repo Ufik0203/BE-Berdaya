@@ -9,7 +9,7 @@ const db = mysql2.createConnection({
     database: process.env.DB_NAME,
     port: process.env.DB_PORT || 3306,
     ssl: {
-      ca: fs.readFileSync(process.env.SSL), // Path ke sertifikat SSL
+      ca: fs.readFileSync(process.env.SSL),
     },
   });
 
