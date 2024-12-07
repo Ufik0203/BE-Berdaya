@@ -20,6 +20,14 @@ const db = mysql2.createConnection({
 app.use(cors());
 app.use(express.json());
 
+// db.connect((err) => {
+//   if (err) {
+//     console.error("Error connecting to Azure MySQL:", err.message);
+//     process.exit(1); 
+//   }
+//   console.log("Connected to Azure MySQL!");
+// });
+
 app.get("/", (req, res) => {
   res.json("Hello From Backend Berdaya, we are ready!");
 });
@@ -39,22 +47,15 @@ app.get("/about", (req, res) => {
 //   }
 //   console.log("Connected to Azure MySQL!");
 
-  db.connect((err) => {
-    if (err) {
-      console.error("Error connecting to Azure MySQL:", err.message);
-      process.exit(1); 
-    }
-    console.log("Connected to Azure MySQL!");
-  });
 
-  db.query("SELECT * FROM about", (err, results) => {
-    if (err) {
-      console.error("Error executing query:", err.message);
-    } else {
-      console.log("Query results:", results);
-    }
-    db.end();
-  });
+  // db.query("SELECT * FROM about", (err, results) => {
+  //   if (err) {
+  //     console.error("Error executing query:", err.message);
+  //   } else {
+  //     console.log("Query results:", results);
+  //   }
+  //   db.end();
+  // });
 // });
 
 app.listen(process.env.DB_PORT, () => {
